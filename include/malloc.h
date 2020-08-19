@@ -9,8 +9,8 @@
 #include "ft_printf.h"
 
 
-#define _N 4096
-#define _M 409600
+#define _N 4096*2
+#define _M 409600*2
 
 #define PTR_ERROR 0
 #define REALLOC_FAILURE 1
@@ -20,7 +20,6 @@
 #define TINY_BLOCK 2
 #define SMALL_BLOCK 4
 #define LARGE_BLOCK 8
-
 
 typedef struct s_meta_data {
     struct s_meta_data *prev;
@@ -37,7 +36,7 @@ typedef struct s_list_infos {
     t_meta_data *page_tail;
 } t_list_info;
 
-t_list_info g_data = {(void*)0, (void*)0, (void*)0};
+t_list_info g_data;
 
 void *ft_malloc(size_t size);
 void ft_free(void *ptr);
@@ -62,7 +61,9 @@ t_meta_data *find_space(int type, size_t size);
 int get_flag_value(t_meta_data *ptr, int flag);
 int page_size_for_type(int page_type, size_t size);
 int page_type_for_size(size_t size);
-int toggle_flag(t_meta_data *ptr, int value, int flag);
+void toggle_flag(t_meta_data *ptr, int value, int flag);
+void *find_ptr_in_stack(void *ptr);
+void print_list();
 
 /* free */
 t_meta_data *free_space(t_meta_data *ptr);

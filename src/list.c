@@ -6,21 +6,28 @@
 void insert_block(t_meta_data *ptr, size_t size, int type) {
   t_meta_data *tmp;
   
-  tmp = (void *)ptr + sizeof(t_meta_data) + size;
-  tmp->size = ptr->size - (size + sizeof(t_meta_data));
-  toggle_flag(tmp, 1, FREE);
-  toggle_flag(tmp, 1, type);
+  tmp = NULL;
+  if (size < ptr->size) {
+    tmp = (void *)ptr + sizeof(t_meta_data) + size;
+    tmp->size = ptr->size - (size + sizeof(t_meta_data));
+    toggle_flag(tmp, 1, FREE);
+    toggle_flag(tmp, 1, type);
+    tmp->next = ptr->next;
+    tmp->prev = ptr;
+    ptr->next = tmp;
+  }
   ptr->size = size;
   toggle_flag(ptr, 0, FREE);
-  tmp->next = ptr->next;
-  ptr->next = tmp;
-  tmp->prev = ptr;
 
-  if (!tmp->next) {
-    g_data.tail = tmp;
-  } else {
-    tmp->next->prev = tmp;
+  if (tmp)
+  {
+    if (!tmp->next) {
+      g_data.tail = tmp;
+    } else {
+      tmp->next->prev = tmp;
+    }
   }
+  
 }
 
 // retourn le pointeur d'avant le nouvel espace
@@ -30,14 +37,14 @@ t_meta_data *find_space(int type, size_t size) {
 
     total_size = size + sizeof(t_meta_data);
     list_ptr = g_data.head;
-
     while (list_ptr) {
-        if (list_ptr->page && !get_flag_value(list_ptr, type)) {
+        if (!get_flag_value(list_ptr, type)) {
             list_ptr = list_ptr->page;
         }
         else
         {
-            if (list_ptr->size >= size) {
+            if (get_flag_value(list_ptr, FREE) && list_ptr->size >= size) {
+                printf("\n\n jai trouve de la place %p \n\n", list_ptr);
                 return list_ptr;
             }
             else {
@@ -65,5 +72,5 @@ if (!(allocated_ptr = find_space(type, size))) {
       return NULL; //exit error
 }
 insert_block(allocated_ptr, size, type);
-return allocated_ptr;
+return allocated_ptr + sizeof(t_meta_data);
 }
