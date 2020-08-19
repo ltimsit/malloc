@@ -3,12 +3,13 @@
 
 
 // insers le nouveau block occupé a la place du free, créer un block free avec ce quil reste
-void insert_block(t_meta_data *ptr, size_t size) {
+void insert_block(t_meta_data *ptr, size_t size, int type) {
   t_meta_data *tmp;
   
   tmp = (void *)ptr + sizeof(t_meta_data) + size;
   tmp->size = ptr->size - (size + sizeof(t_meta_data));
   toggle_flag(tmp, 1, FREE);
+  toggle_flag(tmp, 1, type);
   ptr->size = size;
   toggle_flag(ptr, 0, FREE);
   tmp->next = ptr->next;
@@ -63,6 +64,6 @@ if (!(allocated_ptr = find_space(type, size))) {
     if (!(allocated_ptr = get_new_projection(size, type)))
       return NULL; //exit error
 }
-insert_block(allocated_ptr, size);
+insert_block(allocated_ptr, size, type);
 return allocated_ptr;
 }
