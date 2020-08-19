@@ -9,6 +9,7 @@
 #define _N 4096
 #define _M 409600
 
+<<<<<<< HEAD
 #define PTR_ERROR 0
 #define REALLOC_FAILURE 1
 #define REALLOC_SUCCESS 2
@@ -18,6 +19,8 @@
 #define SMALL_BLOCK 4
 #define LARGE_BLOCK 8
 
+=======
+>>>>>>> edcfc56a2c6470b1d533bee4f256480f8d44be24
 typedef struct s_meta_data {
     struct s_meta_data *prev;
     size_t size;
@@ -68,3 +71,13 @@ void relink_prev_page(t_meta_data *ptr);
 /* realloc */
 void copy_data_here(t_meta_data *new_ptr, t_meta_data *ptr, size_t old_size);
 
+<<<<<<< HEAD
+=======
+} t_meta_data;
+
+t_meta_data *g_data = NULL;
+
+void *malloc(size_t size);
+void free(void *ptr);
+void *realloc(void *ptr, size_t size);
+>>>>>>> edcfc56a2c6470b1d533bee4f256480f8d44be24
