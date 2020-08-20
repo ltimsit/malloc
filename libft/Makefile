@@ -18,7 +18,7 @@ SRC = $(addprefix ft_, $(addsuffix .c, \
 	  memset memcpy memccpy memmove memchr memcmp memalloc memdel bzero \
 	  strlen strdup strcpy strncpy strcat strncat strlcat strchr strrchr \
 	  strstr strnstr strcmp strncmp atoi isalpha isdigit isascii isprint \
-	  isalnum putchar putstr toupper tolower putchar_fd putstr_fd putnbr abs \
+	  isalnum putchar putstr toupper tolower putchar_fd putstr_fd putnbr putnbr_base abs \
 	  putnbr_fd putendl putendl_fd strnew strdel strclr striter striteri \
 	  strmap strmapi strequ strnequ strsub strjoin strtrim itoa strnrev \
 	  strsplit swap lstnew lstdelone lstdel lstadd lstiter lst_size lstmap \

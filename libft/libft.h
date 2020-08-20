@@ -77,6 +77,7 @@ void			ft_putstrclr(const char *s, const char *color_input);
 void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(const char *s, int fd);
 void			ft_putnbr(int n);
+void			ft_putnbr_base(long n, int base);
 void			ft_putnbr_fd(int n, int fd);
 void			ft_putendl(const char *s);
 void			ft_putendl_fd(const char *s, int fd);

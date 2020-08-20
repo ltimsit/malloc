@@ -7,6 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "ft_printf.h"
+#include <pthread.h>
 
 
 #define _N 4096*2
@@ -38,6 +39,8 @@ typedef struct s_list_infos {
 
 t_list_info g_data;
 
+static pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 void *ft_malloc(size_t size);
 void ft_free(void *ptr);
 void *ft_realloc(void *ptr, size_t size);
@@ -58,6 +61,7 @@ void insert_block(t_meta_data *ptr, size_t size, int type);
 t_meta_data *find_space(int type, size_t size);
 
 /* utils */
+int get_type(t_meta_data *ptr);
 int get_flag_value(t_meta_data *ptr, int flag);
 int page_size_for_type(int page_type, size_t size);
 int page_type_for_size(size_t size);
@@ -67,10 +71,12 @@ void print_list();
 
 /* free */
 t_meta_data *free_space(t_meta_data *ptr);
+t_meta_data *free_space_next(t_meta_data *ptr);
+t_meta_data *free_space_prev(t_meta_data *ptr);
 int check_if_free_page(t_meta_data *ptr);
 void relink_prev_page(t_meta_data *ptr);
 
 /* realloc */
-void copy_data_here(t_meta_data *new_ptr, t_meta_data *ptr, size_t old_size);
+void copy_data_here(t_meta_data *new_ptr, void *ptr, size_t old_size, size_t new_size);
 
 #endif
